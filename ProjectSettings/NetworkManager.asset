@@ -1,0 +1,25 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!149 &1
+NetworkManager:
+  m_ObjectHideFlags: 0
+  m_DebugLevel: 0
+  m_Sendrate: 15
+  m_AssetToPrefab: {}
+=======
+=======
+>>>>>>> e529c1203d761e561cb0cb97dba6ea42c016db1a
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!149 &1
+NetworkManager:
+  m_ObjectHideFlags: 0
+  m_DebugLevel: 0
+  m_Sendrate: 15
+  m_AssetToPrefab: {}
+<<<<<<< HEAD
+>>>>>>> dae3c496f9bc255337acbba29550338fb46e9cc4
+=======
+>>>>>>> e529c1203d761e561cb0cb97dba6ea42c016db1a

@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1530853470728292}
+  m_IsPrefabAsset: 1
+--- !u!1 &1530853470728292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4011025604214678}
+  - component: {fileID: 114868138352668014}
+  m_Layer: 10
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4011025604214678
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530853470728292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114868138352668014
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530853470728292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f53ead922c38eb449043262b52b652a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DropItemPrefabs_Weapon:
+  - {fileID: 114189507621444440, guid: 7dd724356a4caff4e983e2eadae6036f, type: 2}
+  - {fileID: 114350444116538028, guid: 60e4430e6d76b38498be91ac0dfcc4dd, type: 2}
+  - {fileID: 114324514728696440, guid: 56b7e1692ce1e004982d370a61fafa4f, type: 2}
+  - {fileID: 114294060474279570, guid: 9d85d788b94de954e9b5a12f2755e4ae, type: 2}
+  - {fileID: 114886087424740794, guid: 56ff23e735b658a418fbfe4f5404f7b5, type: 2}
+  - {fileID: 114615351245397528, guid: 28168af7c98c24bb38d68fef1e4a602a, type: 2}
+  - {fileID: 114479761809522662, guid: 76c3f90cfbd394c74ab130e9cf2af14d, type: 2}
+  DropItemPrefabs_Ammo:
+  - {fileID: 114321493100185426, guid: 551facd5d7784c745a507d361317de55, type: 2}
+  - {fileID: 114065383296565942, guid: 41d4cfea32265444f899779350ec6ad7, type: 2}
+  - {fileID: 114621326547014662, guid: 3b13152fdf0bc944a945e3dcebd22722, type: 2}
+  - {fileID: 114707224429551714, guid: 20cc386164ecc784b9c433310e9995b4, type: 2}
+  DropItemPrefabs_Heal:
+  - {fileID: 114752593040932236, guid: 3b677d4b70ed07146ba913fdd2d32196, type: 2}
+  DropItemPrefabs_Active:
+  - {fileID: 114082965500582552, guid: 09a2f1bc4ebc341e4b041138e39534f3, type: 2}
+  - {fileID: 114636276419329690, guid: 0afe5d6b8f0624b80bf7f5fcfa31aff0, type: 2}
+  DropItemPrefabs_Passive:
+  - {fileID: 114721610563869024, guid: 383501d01f6efdc49ab963a0d5def0bc, type: 2}
+  - {fileID: 114543021475042952, guid: c9a63d34f61a1014a9406fc36d03fdf4, type: 2}
+  - {fileID: 114015037197330468, guid: 48d5cef828b893d489c4e5ca5c0a067e, type: 2}

@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Ground
+  - ShootPos
+  - HealItem
+  - Enemy
+  - weaponPos
+  - WeaponCenter
+  - Weapon
+  - Bullet
+  - DropItem
+  - Ammo
+  - ActiveItem
+  - activeItemPos
+  - Ceiling
+  - Wall
+  - passiveItemPos
+  - frontdoor
+  - backdoor
+  - ItemBox
+  - PassiveItem
+  - SpotLight
+  - PointLight
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - Player
+  - Enemy
+  - Ground
+  - Ceiling
+  - Wall
+  - Bullet
+  - ItemBox
+  - Train
+  - PlayerGround
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

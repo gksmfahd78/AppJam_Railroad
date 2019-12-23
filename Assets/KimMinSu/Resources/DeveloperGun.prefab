@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1626551080477672}
+  m_IsPrefabAsset: 1
+--- !u!1 &1626551080477672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4070470371637422}
+  - component: {fileID: 212735238789079312}
+  - component: {fileID: 114654743773727526}
+  m_Layer: 0
+  m_Name: DeveloperGun
+  m_TagString: Weapon
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1643194160576008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4146938884333662}
+  m_Layer: 0
+  m_Name: shootPos
+  m_TagString: ShootPos
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4070470371637422
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626551080477672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.4613318, y: -1.2000778, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4146938884333662}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4146938884333662
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1643194160576008}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.305, y: -0.022, z: 0}
+  m_LocalScale: {x: 1, y: 0.5, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4070470371637422}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114654743773727526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626551080477672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37d90698e9b3c4320bd501bb999a0253, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knife_Spec:
+    knifeKind: 0
+    damage: 0
+    attackSpeed: 0
+    attack_Form: 0
+    pivotOffset: {x: 0, y: 0}
+    knifeName: 
+    attackRange: {fileID: 0}
+  knife_Stat:
+    knife_State: 0
+    damage: 0
+    attackSpeed: 0
+    attackRange: {fileID: 0}
+    isFirstAttak: 0
+    reflectable: 0
+  gun_Spec:
+    heatingTime: 0
+    explosionRadius: 0
+    canPenetrate: 0
+    accuracy: 40
+    shotSpeed: 4000
+    quantity: 3
+    attackDamage: 20
+    attackDelay: 0.05
+    reloadSpeed: 0.2
+    maxAmmu: 3000
+    ammoType: 1
+    gunName: DeveloperGun
+    gunType: 4
+    ammu_ForSpawn: {fileID: 1659991820720684, guid: d5a31b53a2858034886796c0232eaeef,
+      type: 2}
+    explosionDamage: 0
+    decrease_MoveSpeed: 0
+    pivotOffset: {x: 0, y: 0}
+    canOnePerOneAmmo: 0
+    canAutoFire: 1
+    shootSound: {fileID: 8300000, guid: c20f085b950b6164aadc2196ba670136, type: 3}
+    heatingSound: {fileID: 0}
+    cancelShootSound: {fileID: 0}
+  gun_Stat:
+    ammu_Volume: 0
+    Gun_State: 0
+    attackDamage: 0
+    attackDelay: 0
+    reloadSpeed: 0
+    shotSpeed: 0
+    accuracy: 0
+    explosionRadius: 0
+    canPenetrate: 0
+    isHeated: 0
+    explosionDamage: 0
+  direction_Weapon: 0
+  isUsedWeapon: 1
+  weaponKind: 1
+  fire_Forward: {fileID: 4146938884333662}
+  layer_Enemy:
+    serializedVersion: 2
+    m_Bits: 512
+  layer_Bullet:
+    serializedVersion: 2
+    m_Bits: 8192
+--- !u!212 &212735238789079312
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1626551080477672}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 6
+  m_Sprite: {fileID: 21300014, guid: f5c834803f64e3e4094c021ec6914150, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1.25, y: 0.55}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
