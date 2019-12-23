@@ -132,7 +132,7 @@ MonoBehaviour:
     ammu_ForSpawn: {fileID: 0}
     explosionDamage: 0
     decrease_MoveSpeed: 0
-    pivotOffset: {x: 0, y: 0}
+    pivotOffset: {x: 0.3, y: 0}
     canOnePerOneAmmo: 0
     canAutoFire: 0
     shootSound: {fileID: 0}
@@ -151,7 +151,7 @@ MonoBehaviour:
     isHeated: 0
     explosionDamage: 0
     isPlayedCancelSound: 0
-  direction_Weapon: 0
+  direction_Weapon: 1
   isUsedWeapon: 0
   weaponKind: 2
   fire_Forward: {fileID: 0}

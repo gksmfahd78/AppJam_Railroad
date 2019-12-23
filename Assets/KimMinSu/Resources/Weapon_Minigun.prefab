@@ -189,6 +189,7 @@ MonoBehaviour:
     pivotOffset: {x: 0, y: 0}
     knifeName: 
     attackRange: {fileID: 0}
+    audioClips_Attack: []
   knife_Stat:
     knife_State: 0
     damage: 0
@@ -232,7 +233,8 @@ MonoBehaviour:
     canPenetrate: 0
     isHeated: 0
     explosionDamage: 0
-  direction_Weapon: 0
+    isPlayedCancelSound: 0
+  direction_Weapon: 1
   isUsedWeapon: 0
   weaponKind: 1
   fire_Forward: {fileID: 4760946158237724}

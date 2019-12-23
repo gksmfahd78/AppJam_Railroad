@@ -144,7 +144,7 @@ public class Weapon : MonoBehaviour{
     public Gun_Stat gun_Stat;
 
     [Header("State")]
-    public bool direction_Weapon; // 무기의 방향을 나타내는 bool 형 변수
+    public bool direction_Weapon = false; // 무기의 방향을 나타내는 bool 형 변수
 
     [Header("USING_WEAPON")]
     public bool isUsedWeapon = false;
@@ -170,7 +170,8 @@ public class Weapon : MonoBehaviour{
     public LayerMask layer_Enemy;
     public LayerMask layer_Bullet;
 
-
+    private RightJoystickPlayerController _joystickController;
+    private bool checkJoyMoved = false;
 
     public int Ammo_property
     {
@@ -275,6 +276,7 @@ public class Weapon : MonoBehaviour{
         }
     }
 
+
     public void Awake()
     {
         WeaponCenter = GameObject.FindGameObjectWithTag("WeaponCenter").GetComponent<SpriteRenderer>();
@@ -319,6 +321,8 @@ public class Weapon : MonoBehaviour{
 
 
         _isPlayHeatingSound = false;
+
+        _joystickController = PlayerMinsu.PlayerInstance.GetComponent<RightJoystickPlayerController>();
     }
 
     void UpdateMaxAmmo()
@@ -349,7 +353,8 @@ public class Weapon : MonoBehaviour{
         {
             UpdateMaxAmmo();
             PlayerMinsu.PlayerInstance.playerStat.speed = PlayerMinsu.PlayerInstance.playerSpec.speed - gun_Spec.decrease_MoveSpeed;
-            FllowingMouse();
+            //FllowingMouse();
+            checkJoyMoved = _joystickController.xMovementRightJoystick != 0f;
             switch (weaponKind)
             {
                 case Weapon_Kinds.GUN:
@@ -369,43 +374,26 @@ public class Weapon : MonoBehaviour{
 
     public void Gun_Active()
     {
-        
-        if (Input.GetKeyDown(KeyCode.R) && 
-            gun_Stat.Gun_State == Gun_State.NONE && 
-            Ammo_property < gun_Spec.maxAmmu)
-        {
-            if(PlayerMinsu.PlayerInstance.playerStat.currHavingAmmo <= 0)
-            {
-                MessageText.Instance.Show("사용 가능한 총알이 부족합니다.",PlayerMinsu.PlayerInstance.PlayerPosition());
-            }
-            else
-            {
-
-                Reload(ReloadSpeed);
-            }
-        }
-
-
-        else if (Input.GetKeyUp(KeyCode.Mouse0))
+        if (!checkJoyMoved)
         {
             if (shootLight != null)
             {
                 shootLight.enabled = false;
             }
-            gun_Stat.isHeated = false;
-            _heating_Timer = 0f;
-            _isPlayHeatingSound = false;
-            if(gun_Spec.cancelShootSound != null && !gun_Stat.isPlayedCancelSound)
+            if(_heating_Timer != 0f && gun_Spec.cancelShootSound != null && !gun_Stat.isPlayedCancelSound)
             {
                 SoundManagerTaehyun.instance.CancelAudioClip();
                 SoundManagerTaehyun.instance.PlayAudioClip_OneShot(gun_Spec.cancelShootSound);
             }
+            gun_Stat.isHeated = false;
+            _heating_Timer = 0f;
+            _isPlayHeatingSound = false;
         } 
 
         if (gun_Spec.canAutoFire)
         {
 
-            if (Input.GetKey(KeyCode.Mouse0)&& gun_Stat.Gun_State == Gun_State.NONE && Ammo_property > 0)
+            if (checkJoyMoved && gun_Stat.Gun_State == Gun_State.NONE && Ammo_property > 0)
             {
                 if (_weapon_Anit != null)
                 {
@@ -470,7 +458,7 @@ public class Weapon : MonoBehaviour{
 
         else
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0)&& gun_Stat.Gun_State == Gun_State.NONE && Ammo_property > 0)
+            if (checkJoyMoved && gun_Stat.Gun_State == Gun_State.NONE && Ammo_property > 0)
             {
                 if (_weapon_Anit != null)
                 {
@@ -515,7 +503,7 @@ public class Weapon : MonoBehaviour{
 
     public void Knife_Active()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) &&
+        if (checkJoyMoved &&
             knife_Stat.knife_State == Knife_State.NONE)
         {
             if (_weapon_Anit != null)
@@ -751,6 +739,23 @@ public class Weapon : MonoBehaviour{
             fire_Forward.localRotation = Quaternion.Euler(0f, 0f, target);
             GameObject.Instantiate(gun_Spec.ammu_ForSpawn, fire_Forward.position, Quaternion.identity).GetComponent<Bullet>().GetPlyerStats(this);
             fire_Forward.localRotation = Quaternion.identity;
+        }
+    }
+
+    public void ReLoadBnt()
+    {
+        if (PlayerMinsu.PlayerInstance.weapon == this &&
+            gun_Stat.Gun_State == Gun_State.NONE &&
+            Ammo_property < gun_Spec.maxAmmu)
+        {
+            if (PlayerMinsu.PlayerInstance.playerStat.currHavingAmmo <= 0)
+            {
+                MessageText.Instance.Show("사용 가능한 총알이 부족합니다.", PlayerMinsu.PlayerInstance.PlayerPosition());
+            }
+            else
+            {
+                Reload(ReloadSpeed);
+            }
         }
     }
     /*private void HideGun_HigherCenter(float targety)

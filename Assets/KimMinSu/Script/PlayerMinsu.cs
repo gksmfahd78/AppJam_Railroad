@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.EventSystems;
 
-public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 구하는 함수 넣었놨으니까 플레이어 인스턴스에 접근해서 PlayerPosition() 이 함수 쓰면 나
+public class PlayerMinsu : MonoBehaviour, ICharactor, IPointerDownHandler,IPointerUpHandler{ // 플레이어 포시션 구하는 함수 넣었놨으니까 플레이어 인스턴스에 접근해서 PlayerPosition() 이 함수 쓰면 나
 
     private bool start_IndexOfWeapon = true;
 
@@ -38,17 +39,23 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
 
     [Header("playerStat")]
     public Stat playerStat; // 캐릭터 디버프 상태를 나타내는 열거형
+    public float downJumpTime = 0.3f;
 
 
     public GameObject startingWeapon;
     public int groundIndex;
     [SerializeField]
-    private PlayerUi _healthPlayerUi;
+    private HealthUI _healthPlayerUi;
     public ItemBox nearBox; // 가까운 아이템 박스가 저장될 변수
     public DropItem nearItem; // 가까운 아이템이 저장될 변수
     private int _scrollCount; // 얼마나 스크롤 됫는지 세줄 변수
     private int _scrollNumber = 3; //  scrollNumber만큼 마우스 휠을 돌려야 바뀜
+    private bool _isDownJump = false;
+    private float _betDownJump = 0f;
 
+    private bool isMove = false;
+    private int direction;
+    
     public float AttackSpeed
     {
         get
@@ -149,6 +156,10 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
     private Animator playerAni;
     private Rigidbody2D player; // 플레이어 오브젝트 변수
 
+    public float jumpTime = 0.5f;
+    private float _jumpTimer = 0f;
+    private bool canSwapJump = true;
+
     public int Health // 프로퍼티를 이용하여 쉽게 코딩하기 위한 것(현재 체력을 설정함)
     {
         set
@@ -211,6 +222,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
 
     void Start()
     {
+        _betDownJump = Time.time;
         _startingCenterPos = WeaponPos.parent.localPosition;
         _healthPlayerUi.Initialized(playerSpec.maxHealth, playerSpec.maxHealth);
 
@@ -235,6 +247,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
     {
         if (!isDeath)
         {
+
             AttackSpeed = playerStat.shotDelayTime == AttackSpeed ? AttackSpeed : playerStat.shotDelayTime;
 
             ReloadSpeed = playerStat.reloadDelayTime == ReloadSpeed ? ReloadSpeed : playerStat.reloadDelayTime;
@@ -242,7 +255,46 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
             Additional_AttackForce = playerStat.additionalDamage == Additional_AttackForce ? Additional_AttackForce : playerStat.additionalDamage;
 
             UpdateWeaponCenter();
-            
+            foreach (var passive in passiveItems)
+            {
+                if (passive != null && passive.canUsePassiveSkill)
+                {
+                    UsingPassiveItem(passive);
+                }
+            }
+
+            CountingDownJump();
+
+            if (activeItem != null)
+            {
+                switch (activeItem.spec.usingCondition)
+                {
+                    case usingCondition.TIMER:
+                        if (!activeItem.stat.isFirstSetting && !activeItem.stat.canActive) // 액티브 아이템의 쿨타임
+                        {
+                            if (activeItem.stat.time <= 0)
+                            {
+                                activeItem.stat.time = activeItem.spec.time;
+                            }
+                            activeItem.ActiveItemTimer();
+                            coolTimeImage.fillAmount = activeItem.stat.time / activeItem.spec.time;
+                        }
+                        break;
+                    case usingCondition.CLEARTRAIN:
+                        float filled = 0f;
+                        if (!activeItem.stat.canActive && !activeItem.stat.isFirstSetting)
+                        {
+                            activeItem.ClearTrainCount();
+                            int clearTrainCount = (3 - activeItem.stat.clearedTrain);
+                            filled = clearTrainCount == 3 ? 1f : clearTrainCount / 3f;
+                        }
+                        coolTimeImage.fillAmount = filled;
+
+                        break;
+                }
+            }
+
+
             /*if (Input.GetKeyDown(KeyCode.H))
             {
                 GameManager.instance.CreateDropItem(ItemType.Weapon, PlayerPosition());
@@ -271,48 +323,9 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
             {
                 GameObject.Instantiate(developerGun, PlayerPosition(), Quaternion.identity);
             }*/
-
-            foreach(var passive in passiveItems)
-            {
-                if (passive != null && passive.canUsePassiveSkill)
-                {
-                    UsingPassiveItem(passive);
-                }
-            }
-
-            if(activeItem != null)
-            {
-                switch (activeItem.spec.usingCondition)
-                {
-                    case usingCondition.TIMER:
-                        if (!activeItem.stat.isFirstSetting && !activeItem.stat.canActive) // 액티브 아이템의 쿨타임
-                        {
-                            if (activeItem.stat.time <= 0)
-                            {
-                                activeItem.stat.time = activeItem.spec.time;
-                            }
-                            activeItem.ActiveItemTimer();
-                            coolTimeImage.fillAmount = activeItem.stat.time / activeItem.spec.time;
-                        }
-                        break;
-                    case usingCondition.CLEARTRAIN:
-                        float filled = 0f;
-                        if (!activeItem.stat.canActive && !activeItem.stat.isFirstSetting)
-                        {
-                            activeItem.ClearTrainCount();
-                            int clearTrainCount = (3 - activeItem.stat.clearedTrain);
-                            filled = clearTrainCount == 3 ? 1f : clearTrainCount / 3f;
-                        }
-                        coolTimeImage.fillAmount = filled;
-                        
-                        break;
-                }
-            }
-            
-
             ChangeFlip();
-            CheckWeaponSwitch();
-            if (Input.anyKey)
+            //CheckWeaponSwitch();
+            /*if (Input.anyKey)
             {
                 foreach (var action_move in playerAction_Move)
                 {
@@ -322,61 +335,70 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
                     }
                     else if (Input.GetKeyUp(action_move.Key))
                     {
-                        playerAni.SetFloat("Walking", 0); // idle 애니메이션 실행
                     }
                 }
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    if(nearItem != null)
-                    {
-                        PickupItem(nearItem);
-                    }
-                    if(nearBox != null)
-                    {
-                        nearBox.OpenItemBox();
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.Q) && activeItem != null)
-                {
-                    UsingActiveItem();
-                }
-
-                
-                
-                if (Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && currGround != null)
-                {
-                    if(currGround.GetComponent<PlatformEffector2D>() != null && canJump)
-                    {
-                        JumpCollider.enabled = false;
-                        FallingPlayer();
-                        StartCoroutine(DownJump());
-                    }
-
-                }
-                else if (Input.GetKey(KeyCode.Space) && canJump && !Input.GetKey(KeyCode.S))
-                {
-                    player.gravityScale = 1f;
-                    IncreaseJumpForce();
-                    Jump(playerStat.jumpForce);
-                }
-
             }
             else
             {
                 playerAni.SetFloat("Walking", 0); // idle 애니메이션 실행
+            }*/
+            if (!canSwapJump)
+            {
+                CountingJumpTime();
             }
-            if (Input.GetKeyUp(KeyCode.Space) || playerStat.jumpForce >= playerSpec.maxJumpForce)
+
+            if (!canJump)
             {
                 FallingPlayer();
             }
-            
+        }
+    }
+
+    private void CountingJumpTime()
+    {
+        if(_jumpTimer <= 0f)
+        {
+            _jumpTimer = jumpTime;
+            canSwapJump = true;
+        }
+        else
+        {
+            _jumpTimer -= Time.deltaTime;
+        }
+        
+    }
+
+    public void PushThePickUpButton()
+    {
+        if (nearItem != null)
+        {
+            PickupItem(nearItem);
+        }
+        if (nearBox != null)
+        {
+            nearBox.OpenItemBox();
+        }
+    }
+
+    public void UsingActiveItemButton()
+    {
+        if (activeItem != null)
+        {
+            UsingActiveItem();
+        }
+    }
+
+    private void CountingDownJump()
+    {
+        if(Time.time >= _betDownJump + downJumpTime)
+        {
+            _isDownJump = false;
         }
     }
 
     private IEnumerator DownJump()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         JumpCollider.enabled = true;
     }
 
@@ -398,18 +420,20 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
             center = weapon.knife_Spec.pivotOffset;
         }
 
-        if (!thisSprite_player.flipX)
+        if (thisSprite_player.flipX)
         {
             center.x = -center.x;
         }
         WeaponPos.parent.localPosition = _startingCenterPos + center;
     }
 
-    public void Move(Vector3 direction)
+    /*public void Move(Vector3 direction)
     {
         transform.position += Time.deltaTime * playerStat.speed * direction;
         playerAni.SetFloat("Walking", 1f); // walking 애니메이션 실행       
-    }
+    }*/
+
+    
 
     private void Jump(float force)
     {
@@ -417,12 +441,12 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         player.AddForce(new Vector2(0, force), ForceMode2D.Impulse);
     }
     
-    public void IncreaseJumpForce() // 스페이스바를 누르고 있으면 점프를 더 많이 뜀
+    /*public void IncreaseJumpForce() // 스페이스바를 누르고 있으면 점프를 더 많이 뜀
     {
         float increase = playerSpec.jumpIncrease - 0.4f;
         playerStat.jumpForce += increase;
         playerStat.jumpForce = Mathf.Clamp(playerStat.jumpForce, playerSpec.jumpForce, playerSpec.maxJumpForce);
-    }
+    }*/
 
     private void FallingPlayer()
     {
@@ -440,13 +464,17 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         RaycastHit2D hit_Jump = Physics2D.Raycast(from, rayDirection, rayDistance, layer_Jump);
 
         if (hit_Jump.collider == null) {
+            canJump = false;
             return;
         } 
 
         else
         {
+            if (canSwapJump)
+            {
+                canJump = true;
+            }
             currGround = hit_Jump.collider;
-            canJump = true;
             if(hit_Jump.collider.tag == "Ground" && hit_Jump.collider.gameObject.GetComponent<Ground>() != null)
                 groundIndex = hit_Jump.collider.gameObject.GetComponent<Ground>().groundIndex;
         }
@@ -503,7 +531,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         activeItem.ActiveAbility_Item();
     }
 
-    public void PickupItem(DropItem nearItem) // E키를 눌렀을 때 작동하는 함수
+    private void PickupItem(DropItem nearItem) // E키를 눌렀을 때 작동하는 함수
     {
         bool canDrop = true;
         switch (nearItem.ItemType)
@@ -605,7 +633,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         changeItem.transform.position = PlayerPosition();
     }
 
-    public void ChangeWeapon_E(Weapon changeWeapon)// 상호작용을 통한 무기 바꾸기 / 먹기
+    private void ChangeWeapon_E(Weapon changeWeapon)// 상호작용을 통한 무기 바꾸기 / 먹기
     {
         DropTheWeapon(weapon);
         SetWeapon(changeWeapon);
@@ -614,7 +642,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         weapon.gameObject.SetActive(true);
         weapon.isUsedWeapon = true;
     }
-    public void CheckWeaponSwitch()
+    /*public void CheckWeaponSwitch()
     {
         var isWheelMoving = Mathf.Abs(Input.mouseScrollDelta.y) > 0f;
         var canSwitchWeapon = weapons[0] != null && weapons[1] != null;
@@ -630,8 +658,52 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         {
             _wheelInputTimer -= Time.deltaTime;
         }
+    }*/
+
+
+    public void SetWeapon1()
+    {
+        if(weapons[0] != null)
+        {
+            weapon.isUsedWeapon = false;
+            weapon.gameObject.SetActive(false);
+            weapon.gun_Stat.Gun_State = Gun_State.NONE;
+
+            weapon = weapons[0].GetComponent<Weapon>();
+            UsingWeaponInterface_BackGround[0].color = Color.gray;
+            UsingWeaponInterface_BackGround[1].color = Color.white;
+            currWeaponEmphasisImgae.rectTransform.position = UsingWeaponInterface_BackGround[0].rectTransform.position;
+
+            weapon.gameObject.SetActive(true);
+            weapon.isUsedWeapon = true;
+            SetWeapon(weapon);
+        }
+    }    
+
+    public void SetWeapon2()
+    {
+        if (weapons[1] != null)
+        {
+            weapon.isUsedWeapon = false;
+            weapon.gameObject.SetActive(false);
+            weapon.gun_Stat.Gun_State = Gun_State.NONE;
+
+            weapon = weapons[1].GetComponent<Weapon>();
+            UsingWeaponInterface_BackGround[1].color = Color.gray;
+            UsingWeaponInterface_BackGround[0].color = Color.white;
+            currWeaponEmphasisImgae.rectTransform.position = UsingWeaponInterface_BackGround[1].rectTransform.position;
+
+            weapon.gameObject.SetActive(true);
+            weapon.isUsedWeapon = true;
+            SetWeapon(weapon);
+        }
     }
-    private void SwitchWeapon()
+    public void Reload()
+    {
+        weapon.ReLoadBnt();
+    }
+
+    /*private void SwitchWeapon()
     {
         weapons_Index = 1 - weapons_Index;
         var notUsingWeaponIndex = 1 - weapons_Index;
@@ -648,7 +720,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         weapon.gameObject.SetActive(true);
         weapon.isUsedWeapon = true;
         SetWeapon(weapon);
-    }
+    }*/
     /*
     public void OnChangeWeapon_Wheel()
     {
@@ -691,6 +763,7 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
         else if(weapon_Setting.weaponKind == Weapon_Kinds.MELEE)
         {
             weapon_Setting.transform.parent = weapon_Setting.WeaponCenter.transform;
+            weapon_Setting.transform.position += (Vector3)weapon_Setting.knife_Spec.pivotOffset;
         }
         
         weapon_Setting.transform.localPosition = Vector3.zero;
@@ -817,5 +890,61 @@ public class PlayerMinsu : MonoBehaviour, ICharactor{ // 플레이어 포시션 
     public Vector2 PlayerPosition()
     {
         return new Vector2(transform.position.x, transform.position.y + 0.5f);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        
+    }
+
+    public void RightButton()
+    {
+        playerAni.SetFloat("Walking", 1f); // walking 애니메이션 실행    
+        isMove = true;
+        direction = 1;
+        transform.position += Time.deltaTime * playerStat.speed * (transform.right * direction);
+    }
+
+    public void LeftButton()
+    {
+        playerAni.SetFloat("Walking", 1f); // walking 애니메이션 실행    
+        isMove = true;
+        direction = -1;
+        transform.position += Time.deltaTime * playerStat.speed * (transform.right * direction);
+    }
+
+    public void ButtonUp()
+    {
+        playerAni.SetFloat("Walking", 0f); // walking 애니메이션 실행    
+        isMove = false;
+    }
+
+    public void UpButton()
+    {
+        if (canJump)
+        {
+            player.gravityScale = 1f;
+            Jump(playerStat.jumpForce);
+            canSwapJump = false;
+        }
+    }
+
+    public void DownButton()
+    {
+        if (currGround != null && !_isDownJump)
+        {
+            if (currGround.GetComponent<PlatformEffector2D>() != null && canJump)
+            {
+                JumpCollider.enabled = false;
+                FallingPlayer();
+                StartCoroutine(DownJump());
+                _isDownJump = true;
+            }
+        }
     }
 }

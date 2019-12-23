@@ -48,5 +48,4 @@ public class ItemBox : MonoBehaviour {
             hasUsed = true;
         }
     }
-
 }

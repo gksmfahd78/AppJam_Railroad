@@ -234,7 +234,7 @@ MonoBehaviour:
     isHeated: 0
     explosionDamage: 0
     isPlayedCancelSound: 0
-  direction_Weapon: 0
+  direction_Weapon: 1
   isUsedWeapon: 1
   weaponKind: 1
   fire_Forward: {fileID: 4146938884333662}
