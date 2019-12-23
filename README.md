@@ -4,7 +4,7 @@
 ## 팀원
 #### 김민수, 이동현, 정윤지, 홍윤호, 황선우
 
-엔터테이먼트 부분 장려상(3등)<br/>
+앱잼 19회 엔터테이먼트 부분 장려상(3등)<br/>
 <img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/appjam1.jpg" width="500px" height="250">
 
 ## 1. 정보
@@ -12,7 +12,7 @@
 ### 플레이스토어 링크
 [바로가기]()
 
-### 제 19회 앱잼
+### 제 19회 앱잼 대회 정보
 [바로가기](https://www.onoffmix.com/event/203256)
 
 ### 게임 사진
