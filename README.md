@@ -6,3 +6,8 @@
 
 엔터테이먼트 부분 장려상(3등)<br/>
 <img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/appjam1.jpg" width="500px" height="250">
+
+## 플레이스토어 링크
+
+## 제 18회 앱잼
+[바로가기](https://www.onoffmix.com/event/172895)
