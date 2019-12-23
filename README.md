@@ -25,7 +25,7 @@
 * unity 2018.02.21f
 
 ## 3. 프로젝트 개요
-#### 발표 자료 [](https://github.com/gksmfahd78/AppJam_Railroad/raw/master/Public/%EA%B2%8C%EC%9E%84_%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8_%EB%A0%88%EC%9D%BC%EB%A1%9C%EB%93%9C.pptx)
+#### 발표 자료 [다운받기](https://github.com/gksmfahd78/AppJam_Railroad/raw/master/Public/%EA%B2%8C%EC%9E%84_%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8_%EB%A0%88%EC%9D%BC%EB%A1%9C%EB%93%9C.pptx)
 
 1. 게임 배경<br/>
 미래시대, 열차안<br/>
