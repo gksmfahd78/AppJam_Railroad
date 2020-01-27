@@ -15,6 +15,9 @@
 ### 제 19회 앱잼 대회 정보
 [바로가기](https://www.onoffmix.com/event/203256)
 
+### 대회 기간
+2019.12.21 (토) 13:00 ~ 2019.12.22 (일) 13:00
+
 ### 게임 사진
 <img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/appjam2.jpg" width="500px" height="250">
 
