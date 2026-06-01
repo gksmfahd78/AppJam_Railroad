@@ -1,43 +1,45 @@
-# AppJam_RailRoad
-<img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/RailRoadIcon_64.png" width="64px" height="64px">
+# AppJam Railroad
 
-## 팀원
-#### 김민수, 이동현, 정윤지, 홍윤호, 황선우
+Award-winning Unity roguelike train game built for the 19th AppJam entertainment category.
 
+<img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/RailRoadIcon_64.png" width="64" height="64" alt="Railroad icon">
 
-Cancel changes
-앱잼 19회 엔터테이먼트 부문 장려상(3등)<br/>
-<!-- <img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/appjam1.jpg" width="500px" height="250"> -->
+## Result
 
-## 1. 정보
+- Event: 19th AppJam
+- Category: Entertainment
+- Award: Encouragement prize, 3rd place
+- Theme: Gift
+- Period: 2019-12-21 to 2019-12-22
 
-### 플레이스토어 링크
-[바로가기]()
+## Team
 
-### 제 19회 앱잼 대회 정보
-[바로가기](https://www.onoffmix.com/event/203256)
+Kim Min Su, Lee Dong Hyun, Jung Yun Ji, Hong Yun Ho, Hwang Sun Woo
 
-### 대회 기간
-2019.12.21 (토) 13:00 ~ 2019.12.22 (일) 13:00
+## Game
 
-### 게임 사진
-<img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/appjam2.jpg" width="500px" height="250">
+Railroad is a roguelike game set on a train in the future. Villains kidnap Santa and try to erase Christmas. The player becomes a sheriff, rescues Santa, and stops the runaway train.
 
-### 대회 주제
-선물
+## Tech Stack
 
-## 2. 유니티 버전
-* unity 2018.02.21f
+- Unity 2018.02.21f
+- C#
 
-## 3. 프로젝트 개요
-#### 발표 자료 [다운받기](https://github.com/gksmfahd78/AppJam_Railroad/raw/master/Public/%EA%B2%8C%EC%9E%84_%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8_%EB%A0%88%EC%9D%BC%EB%A1%9C%EB%93%9C.pptx)
+## Screenshots
 
-1. 게임 배경<br/>
-미래시대, 열차안<br/>
+<img src="https://github.com/gksmfahd78/AppJam_Railroad/blob/master/Public/img/appjam2.jpg" width="500" alt="Railroad gameplay screenshot">
 
-2. 게임장르<br/>
-로그라이크 장르<br/>
+## Presentation
 
-3. 게임 스토리<br/>
-악당들이 산타를 납치해 크리스마스를 없애려합니다. 보안관은 크리스마스를 되찾기 위해 산타를 구하고, 폭주하는 열차를 멈춰야 합니다.<br/>
+[Download presentation](https://github.com/gksmfahd78/AppJam_Railroad/raw/master/Public/%EA%B2%8C%EC%9E%84_%EB%B0%A9%ED%83%84%EC%86%8C%EB%85%84%EB%8B%A8_%EB%A0%88%EC%9D%BC%EB%A1%9C%EB%93%9C.pptx)
 
+## Running The Project
+
+1. Install Unity 2018.02.21f or a compatible Unity version.
+2. Open the project with Unity Hub.
+3. Let Unity import assets.
+4. Open the main scene and run it from the editor.
+
+## Status
+
+Legacy hackathon project. It is kept public as an award-winning portfolio project.
