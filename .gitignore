@@ -60,3 +60,8 @@ SwitchIL2CPPCache/
 SwitchIL2CPPStats/
 .idea/.idea.ChronoSword/.idea/workspace.xml
 .idea/.idea.ChronoSword/.idea/contentModel.xml
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
